@@ -1,5 +1,7 @@
 FROM ubuntu:12.04
 
+MAINTAINER Torben Knerr <mail@tknerr.de>
+
 ENV DEBIAN_FRONTEND noninteractive
 
 # install common dependencies
