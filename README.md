@@ -14,7 +14,7 @@ On top of the official distro base image it includes:
 
 The following base images are available (see subdirectories):
 
- * tknerr/baseimage-ubuntu-12.04
+ * [tknerr/baseimage-ubuntu-12.04](https://registry.hub.docker.com/u/tknerr/baseimage-ubuntu-12.04/)
  * tknerr/baseimage-ubuntu-14.04
 
 
