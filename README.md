@@ -14,8 +14,8 @@ On top of the official distro base image it includes:
 
 The following base images are available (see subdirectories):
 
- * tknerr/baseimage-ubuntu-1204
- * tknerr/baseimage-ubuntu-1404
+ * tknerr/baseimage-ubuntu-12.04
+ * tknerr/baseimage-ubuntu-14.04
 
 
 ## Usage
@@ -24,7 +24,7 @@ You can use it in your Vagrantfile in it's most simple form like this:
 ```ruby
 Vagrant.configure(2) do |config|
   config.vm.provider "docker" do |d|
-    d.image = "tknerr/baseimage-ubuntu-1404"
+    d.image = "tknerr/baseimage-ubuntu-14.04"
   end
 end
 ```
@@ -34,7 +34,7 @@ this container has ssh enabled:
 ```ruby
 Vagrant.configure(2) do |config|
   config.vm.provider "docker" do |d|
-    d.image = "tknerr/baseimage-ubuntu-1404"
+    d.image = "tknerr/baseimage-ubuntu-14.04"
     d.has_ssh = true
   end
 
