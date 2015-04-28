@@ -43,7 +43,14 @@ Vagrant.configure(2) do |config|
 end
 ```
 
+## Contribute
+
+How to contribute?
+
+ 1. fork this repo
+ 2. create a new branch with your changes
+ 3. submit a pull request
+
 ## License
 
-
-## Contribute
+MIT - see the accompanying [LICENSE](https://github.com/tknerr/vagrant-docker-baseimages/blob/master/LICENSE) file
