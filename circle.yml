@@ -20,4 +20,3 @@ test:
   override:
     - rake build
     - rake test
-        timeout: 900
