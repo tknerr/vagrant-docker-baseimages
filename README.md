@@ -14,7 +14,7 @@ On top of the official distro base image it includes:
 
 ## Available Base Images
 
-The following base images are available (see subdirectories):
+The following base images (see subdirectories) are available on [docker hub](https://registry.hub.docker.com):
 
  * [`tknerr/baseimage-ubuntu:12.04`](https://registry.hub.docker.com/u/tknerr/baseimage-ubuntu/)
  * [`tknerr/baseimage-ubuntu:14.04`](https://registry.hub.docker.com/u/tknerr/baseimage-ubuntu/)
