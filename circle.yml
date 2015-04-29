@@ -1,0 +1,23 @@
+machine:
+  services:
+    - docker
+  ruby:
+    version: 2.1.5
+  environment:
+    VAGRANT_DEFAULT_PROVIDER: docker
+
+dependencies:
+  cache_directories:
+    - ~/.vagrant.d
+  pre:
+    - wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb
+    - sudo dpkg -i vagrant_1.7.2_x86_64.deb
+  override:
+    - bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3:
+        timeout: 900
+
+test:
+  override:
+    - rake build
+    - rake test
+        timeout: 900
