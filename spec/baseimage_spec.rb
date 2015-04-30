@@ -4,27 +4,20 @@ describe 'vagrant-friendly docker baseimages' do
 
   describe 'ubuntu-12.04' do
 
-    it 'is not started when I run `vagrant status`' do
-
+    around(:each) do |example|
       Dir.mktmpdir do |dir|
-        File.write "#{dir}/Vagrantfile", <<-VAGRANTFILE.unindent
-          Vagrant.configure(2) do |config|
-            config.vm.provider "docker" do |d|
-              d.image = "tknerr/baseimage-ubuntu:12.04"
-              d.has_ssh = true
-            end
-
-            # use shell and other provisioners as usual
-            config.vm.provision "shell", inline: "echo 'hello docker!'"
-          end
-        VAGRANTFILE
-
-        cmd = Mixlib::ShellOut.new("vagrant status", :cwd => dir)
-        res = cmd.run_command
-        expect(res.stdout).to include "not created (docker)"
-        expect(res.stderr).to match ""
-        expect(res.status.exitstatus).to eq 0
+        @tempdir = dir
+        write_vagrantfile_with_provisioner(@tempdir, "ubuntu", "12.04")
+        example.run
       end
+    end
+
+    it 'is not created when I run `vagrant status`' do
+      cmd = Mixlib::ShellOut.new("vagrant status", :cwd => @tempdir)
+      result = cmd.run_command
+      expect(result.stdout).to include "not created (docker)"
+      expect(result.stderr).to match ""
+      expect(result.status.exitstatus).to eq 0
     end
   end
 end
