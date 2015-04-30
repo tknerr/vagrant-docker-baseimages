@@ -1,8 +1,17 @@
 
+PLATFORMS = {
+  ubuntu: ["12.04", "14.04"]
+}
+
 desc "buil the base images"
 task :build do
-  sh "docker build -t tknerr/baseimage-ubuntu:12.04 ubuntu-1204"
-  sh "docker build -t tknerr/baseimage-ubuntu:14.04 ubuntu-1404"
+  PLATFORMS.each_pair do |platform, versions|
+    versions.each do |version|
+      image = "tknerr/baseimage-#{platform}:#{version}"
+      dir = "#{platform}-#{version.delete('.')}"
+      sh "docker build -t #{image} #{dir}"
+    end
+  end
 end
 
 desc "run integration tests"
