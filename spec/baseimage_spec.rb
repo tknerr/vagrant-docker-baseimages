@@ -1,26 +1,30 @@
 require 'spec_helper'
 
-context "vagrant-friendly docker baseimages" do
+describe 'vagrant-friendly docker baseimages' do
 
-  context 'ubuntu-12.04' do
-    file 'Vagrantfile', <<-VAGRANTFILE
-Vagrant.configure(2) do |config|
-  config.vm.provider "docker" do |d|
-    d.image = "tknerr/baseimage-ubuntu:12.04"
-    d.has_ssh = true
-  end
+  describe 'ubuntu-12.04' do
 
-  # use shell and other provisioners as usual
-  config.vm.provision "shell", inline: "echo 'hello docker!'"
-end
-VAGRANTFILE
+    it 'is not started when I run `vagrant status`' do
 
-    describe "vagrant status" do
-      command 'vagrant status'
-      its(:stdout) { is_expected.to include('not created (docker)') }
-      its(:stderr) { is_expected.to eq '' }
-      its(:exitstatus) { is_expected.to eq 0 }
+      Dir.mktmpdir do |dir|
+        File.write "#{dir}/Vagrantfile", <<-VAGRANTFILE.unindent
+          Vagrant.configure(2) do |config|
+            config.vm.provider "docker" do |d|
+              d.image = "tknerr/baseimage-ubuntu:12.04"
+              d.has_ssh = true
+            end
+
+            # use shell and other provisioners as usual
+            config.vm.provision "shell", inline: "echo 'hello docker!'"
+          end
+        VAGRANTFILE
+
+        cmd = Mixlib::ShellOut.new("vagrant status", :cwd => dir)
+        res = cmd.run_command
+        expect(res.stdout).to include "not created (docker)"
+        expect(res.stderr).to match ""
+        expect(res.status.exitstatus).to eq 0
+      end
     end
-
   end
 end
