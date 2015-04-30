@@ -15,5 +15,5 @@ dependencies:
 
 test:
   override:
-    - rake build
-    - rake test
+    - bundle exec rake build
+    - bundle exec rake test
