@@ -33,7 +33,7 @@ module Helpers
     <<-VAGRANTFILE.unindent
     Vagrant.configure(2) do |config|
       config.vm.provider "docker" do |d|
-        d.image = "tknerr/baseimage-ubuntu:12.04"
+        d.image = "tknerr/baseimage-#{platform}:#{version}"
         d.has_ssh = true
       end
     end
