@@ -20,7 +20,7 @@ The following base images (see subdirectories) are available on [docker hub](htt
  * [`tknerr/baseimage-ubuntu:14.04`](https://registry.hub.docker.com/u/tknerr/baseimage-ubuntu/)
 
 
-## Usage
+### Usage
 
 You can use it in your Vagrantfile in it's most simple form like this:
 ```ruby
@@ -42,6 +42,26 @@ Vagrant.configure(2) do |config|
 
   # use shell and other provisioners as usual
   config.vm.provision "shell", inline: "echo 'hello docker!'"
+end
+```
+
+## Vagrant Basebxes
+
+In addition we published the following corresponding baseboxes on [Atlas](https://atlas.hashicorp.com/boxes/search),
+which use the above base images:
+
+ * [`tknerr/baseimage-ubuntu-12.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-12.04)
+ * [`tknerr/baseimage-ubuntu-14.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-14.04)
+
+They can be used in the Vagrantfile via `config.vm.box` setting directly, and you do not need to specify
+the docker provider specific `image` and `has_ssh` settings (they are pre-configured via the box Vagrantfile)
+
+### Usage
+
+You can use the `config.vm.box` setting and then run `vagrant up --provider docker`:
+```ruby
+Vagrant.configure(2) do |config|
+  config.vm.box = "tknerr/baseimage-ubuntu-14.04"
 end
 ```
 
