@@ -1,5 +1,7 @@
 # Vagrant-friendly Docker Base Images
 
+[![Circle CI](https://circleci.com/gh/tknerr/vagrant-docker-baseimages/tree/master.svg?style=shield)](https://circleci.com/gh/tknerr/vagrant-docker-baseimages/tree/master)
+
 A collection of Vagrant-friendly docker base images, something inbetween the
 official distro base image and [puhsion/baseimage](https://phusion.github.io/baseimage-docker/), just enough to make it work
 with Vagrant.
@@ -12,7 +14,7 @@ On top of the official distro base image it includes:
 
 ## Available Base Images
 
-The following base images are available (see subdirectories):
+The following base images (see subdirectories) are available on [docker hub](https://registry.hub.docker.com):
 
  * [`tknerr/baseimage-ubuntu:12.04`](https://registry.hub.docker.com/u/tknerr/baseimage-ubuntu/)
  * [`tknerr/baseimage-ubuntu:14.04`](https://registry.hub.docker.com/u/tknerr/baseimage-ubuntu/)
