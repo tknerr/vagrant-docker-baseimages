@@ -28,6 +28,9 @@ RUN mkdir -p /home/vagrant/.ssh \
     && chmod 0600 /home/vagrant/.ssh/authorized_keys \
     && chown -R vagrant /home/vagrant/.ssh
 
+# don't clean packages, we might be using vagrant-cachier
+RUN rm /etc/apt/apt.conf.d/docker-clean
+
 # run sshd in the foreground
 CMD /usr/sbin/sshd -D \
     -o UseDNS=no\
