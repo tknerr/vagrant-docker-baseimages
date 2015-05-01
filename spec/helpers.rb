@@ -11,8 +11,8 @@ end
 # helper methods
 module Helpers
 
-  def write_vagrantfile_with_provisioner(dir, platform, version)
-    File.write "#{dir}/Vagrantfile", vagrantfile_with_provisioner(platform, version)
+  def write_config(dir, content)
+    File.write "#{dir}/Vagrantfile", content
   end
 
   def vagrantfile_with_provisioner(platform, version)
@@ -36,6 +36,14 @@ module Helpers
         d.image = "tknerr/baseimage-#{platform}:#{version}"
         d.has_ssh = true
       end
+    end
+    VAGRANTFILE
+  end
+
+  def vagrantfile_with_box_only(platform, version)
+    <<-VAGRANTFILE.unindent
+    Vagrant.configure(2) do |config|
+      config.vm.box = "tknerr/baseimage-#{platform}-#{version}"
     end
     VAGRANTFILE
   end
