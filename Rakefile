@@ -2,15 +2,25 @@
 require './spec/helpers'
 require 'rubygems/package'
 
+include Helpers
+
 PLATFORMS = {
   ubuntu: ["12.04", "14.04"]
 }
 
-desc "build the docker images and vagrant boxes"
+desc "build the docker base images"
 task :build do
   PLATFORMS.each_pair do |platform, versions|
     versions.each do |version|
       build_docker_image(platform, version)
+    end
+  end
+end
+
+desc "generate the vagrant .box files"
+task :generate do
+  PLATFORMS.each_pair do |platform, versions|
+    versions.each do |version|
       build_vagrant_basebox(platform, version)
     end
   end
