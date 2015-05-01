@@ -12,7 +12,11 @@ end
 module Helpers
 
   def write_vagrantfile_with_provisioner(dir, platform, version)
-    File.write "#{dir}/Vagrantfile", <<-VAGRANTFILE.unindent
+    File.write "#{dir}/Vagrantfile", vagrantfile_with_provisioner(platform, version)
+  end
+
+  def vagrantfile_with_provisioner(platform, version)
+    <<-VAGRANTFILE.unindent
       Vagrant.configure(2) do |config|
         config.vm.provider "docker" do |d|
           d.image = "tknerr/baseimage-#{platform}:#{version}"
@@ -23,6 +27,25 @@ module Helpers
         config.vm.provision "shell", inline: "echo 'hello docker!'"
       end
     VAGRANTFILE
+  end
+
+  def minimal_vagrantfile(platform, version)
+    <<-VAGRANTFILE.unindent
+    Vagrant.configure(2) do |config|
+      config.vm.provider "docker" do |d|
+        d.image = "tknerr/baseimage-ubuntu:12.04"
+        d.has_ssh = true
+      end
+    end
+    VAGRANTFILE
+  end
+
+  def metadata_json
+    <<-METADATA.unindent
+    {
+        "provider": "docker"
+    }
+    METADATA
   end
 
 end
