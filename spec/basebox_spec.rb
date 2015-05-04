@@ -12,6 +12,13 @@ describe 'base boxes for the docker baseimages' do
       before(:all) do
         @tempdir = Dir.mktmpdir
         write_config @tempdir, vagrantfile_with_box_only(platform, version)
+
+        # need to import the basebox once, see mitchellh/vagrant#5667
+        basebox = "tknerr/baseimage-#{platform}-#{version}"
+        cmd = Mixlib::ShellOut.new("vagrant box add #{basebox}")
+        result = cmd.run_command
+        expect(result.stdout).to include "==> box: Successfully added box '#{basebox}' (v1.0.0) for 'docker'!"
+        expect(result.status.exitstatus).to eq 0
       end
 
       after(:all) do
