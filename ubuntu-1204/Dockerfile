@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     lsb-release \
     openssh-server \
+    net-tools \
     sudo
 
 # setup the vagrant user
