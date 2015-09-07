@@ -24,11 +24,37 @@ The following baseboxes are currently published on [Atlas](https://atlas.hashico
 
 ### Usage
 
-You can use the `config.vm.box` setting and then run `vagrant up --provider docker`:
+Use the `config.vm.box` setting to specify the basebox in your `Vagrantfile`. For example, run `vagrant init tknerr/baseimage-ubuntu-14.04 --minimal` to create the Vagrantfile below:
 ```ruby
 Vagrant.configure(2) do |config|
   config.vm.box = "tknerr/baseimage-ubuntu-14.04"
 end
+```
+
+Then, running `vagrant up --provider docker` should look similar to this:
+```
+W:\repo\sample>vagrant up --provider=docker
+Bringing machine 'default' up with 'docker' provider...
+==> default: Creating the container...
+    default:   Name: minimal_default_1441605508
+    default:  Image: tknerr/baseimage-ubuntu:14.04
+    default: Volume: /w/repo/sample:/vagrant
+    default:   Port: 0.0.0.0:2222:22
+    default:
+    default: Container created: f366398390f6b33f
+==> default: Starting container...
+==> default: Waiting for machine to boot. This may take a few minutes...
+    default: SSH address: 192.168.59.104:2222
+    default: SSH username: vagrant
+    default: SSH auth method: private key
+    default:
+    default: Vagrant insecure key detected. Vagrant will automatically replace
+    default: this with a newly generated keypair for better security.
+    default:
+    default: Inserting generated public key within guest...
+    default: Removing insecure key from the guest if it's present...
+    default: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> default: Machine booted and ready!
 ```
 
 ### Warning - it might not work as expected (Vagrant =< 1.7.2)
