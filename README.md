@@ -22,8 +22,6 @@ The following baseboxes are currently published on [Atlas](https://atlas.hashico
  * [`tknerr/baseimage-ubuntu-12.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-12.04)
  * [`tknerr/baseimage-ubuntu-14.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-14.04)
 
-They can be used in the Vagrantfile via `config.vm.box` setting directly (see warning for Vagrant =< 1.7.2).
-
 ### Usage
 
 You can use the `config.vm.box` setting and then run `vagrant up --provider docker`:
@@ -33,7 +31,7 @@ Vagrant.configure(2) do |config|
 end
 ```
 
-### Warning - it might not work as expected (with Vagrant =< 1.7.2)
+### Warning - it might not work as expected (Vagrant =< 1.7.2)
 
 > **Please note**: until version 1.7.2 of Vagrant the docker provisioner [does not inspect
 > the packaged Vagrantfile](https://github.com/mitchellh/vagrant/issues/5667)
