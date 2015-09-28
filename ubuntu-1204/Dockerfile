@@ -4,6 +4,9 @@ MAINTAINER Torben Knerr <mail@tknerr.de>
 
 ENV DEBIAN_FRONTEND noninteractive
 
+# ensure we have the en_US.UTF-8 locale
+RUN locale-gen en_US.UTF-8
+
 # install common dependencies
 RUN apt-get update && apt-get install -y \
     curl \
