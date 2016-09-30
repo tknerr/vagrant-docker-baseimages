@@ -27,10 +27,10 @@ The following baseboxes are currently published on [Atlas](https://atlas.hashico
 
 Use the `config.vm.box` setting to specify the basebox in your Vagrantfile.
 
-For example, run `vagrant init tknerr/baseimage-ubuntu-14.04 --minimal` to create the Vagrantfile below:
+For example, run `vagrant init tknerr/baseimage-ubuntu-16.04 --minimal` to create the Vagrantfile below:
 ```ruby
 Vagrant.configure(2) do |config|
-  config.vm.box = "tknerr/baseimage-ubuntu-14.04"
+  config.vm.box = "tknerr/baseimage-ubuntu-16.04"
 end
 ```
 
@@ -40,7 +40,7 @@ W:\repo\sample>vagrant up --provider=docker
 Bringing machine 'default' up with 'docker' provider...
 ==> default: Creating the container...
     default:   Name: minimal_default_1441605508
-    default:  Image: tknerr/baseimage-ubuntu:14.04
+    default:  Image: tknerr/baseimage-ubuntu:16.04
     default: Volume: /w/repo/sample:/vagrant
     default:   Port: 0.0.0.0:2222:22
     default:
@@ -77,7 +77,7 @@ Bringing machine 'default' up with 'docker' provider...
 > As a workaround you have to import the desired basebox once, so it is available
 > locally and the docker provider can inspect the Vagrantfile [we package into the box](https://github.com/tknerr/vagrant-docker-baseimages/blob/ea692a56b5b004135f7db08c2720418ad8bfc9a4/spec/helpers.rb#L34-38):
 > ```
-> $ vagrant box add tknerr/baseimage-ubuntu-14.04
+> $ vagrant box add tknerr/baseimage-ubuntu-16.04
 > ```
 > After that, you can use the `config.vm.box` with the docker baseimage as expected.
 
@@ -97,7 +97,7 @@ run `vagrant up`:
 ```ruby
 Vagrant.configure(2) do |config|
   config.vm.provider "docker" do |d|
-    d.image = "tknerr/baseimage-ubuntu:14.04"
+    d.image = "tknerr/baseimage-ubuntu:16.04"
   end
 end
 ```
@@ -107,7 +107,7 @@ this container has ssh enabled:
 ```ruby
 Vagrant.configure(2) do |config|
   config.vm.provider "docker" do |d|
-    d.image = "tknerr/baseimage-ubuntu:14.04"
+    d.image = "tknerr/baseimage-ubuntu:16.04"
     d.has_ssh = true
   end
 
