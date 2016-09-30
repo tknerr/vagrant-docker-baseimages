@@ -21,6 +21,7 @@ The following baseboxes are currently published on [Atlas](https://atlas.hashico
 
  * [`tknerr/baseimage-ubuntu-12.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-12.04)
  * [`tknerr/baseimage-ubuntu-14.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-14.04)
+ * [`tknerr/baseimage-ubuntu-16.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-16.04)
 
 ### Usage
 
@@ -85,8 +86,9 @@ Bringing machine 'default' up with 'docker' provider...
 
 In case you want to work with the actual docker base images directly, the following ones (see subdirectories) are available on [docker hub](https://registry.hub.docker.com):
 
- * [`tknerr/baseimage-ubuntu:12.04`](https://registry.hub.docker.com/u/tknerr/baseimage-ubuntu/)
- * [`tknerr/baseimage-ubuntu:14.04`](https://registry.hub.docker.com/u/tknerr/baseimage-ubuntu/)
+ * [`tknerr/baseimage-ubuntu:12.04`](https://hub.docker.com/r/tknerr/baseimage-ubuntu/tags/)
+ * [`tknerr/baseimage-ubuntu:14.04`](https://hub.docker.com/r/tknerr/baseimage-ubuntu/tags/)
+ * [`tknerr/baseimage-ubuntu:16.04`](https://hub.docker.com/r/tknerr/baseimage-ubuntu/tags/)
 
 ### Usage
 
