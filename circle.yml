@@ -11,7 +11,7 @@ dependencies:
     - ~/.vagrant.d
     - ~/docker
   pre:
-    - wget https://releases.hashicorp.com/vagrant/1.8.6/vagrant_1.7.2_x86_64.deb
+    - wget https://releases.hashicorp.com/vagrant/1.7.2/vagrant_1.7.2_x86_64.deb
     - sudo dpkg -i vagrant_1.7.2_x86_64.deb
   override:
     # cache the docker images / layers
