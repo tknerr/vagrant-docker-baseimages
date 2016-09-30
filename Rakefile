@@ -5,7 +5,7 @@ require 'rubygems/package'
 include Helpers
 
 PLATFORMS = {
-  ubuntu: ["12.04", "14.04"]
+  ubuntu: ["12.04", "14.04", "16.04"]
 }
 
 desc "build the docker base images"
