@@ -21,6 +21,7 @@ The following baseboxes are currently published on [Atlas](https://atlas.hashico
 
  * [`tknerr/baseimage-ubuntu-12.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-12.04)
  * [`tknerr/baseimage-ubuntu-14.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-14.04)
+ * [`tknerr/baseimage-ubuntu-16.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-16.04)
 
 ### Usage
 
