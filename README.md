@@ -17,11 +17,11 @@ On top of the official distro base image it includes:
 
 The intended use of the Vagrant-friendly docker base images is to use them as a basebox in your `Vagrantfile`. These baseboxes simply reference one of the [actual docker base images](https://github.com/tknerr/vagrant-docker-baseimages#docker-base-images) below.
 
-The following baseboxes are currently published on [Atlas](https://atlas.hashicorp.com/boxes/search):
+The following baseboxes are currently published on [Atlas](https://app.vagrantup.com/boxes/search):
 
- * [`tknerr/baseimage-ubuntu-12.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-12.04)
- * [`tknerr/baseimage-ubuntu-14.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-14.04)
- * [`tknerr/baseimage-ubuntu-16.04`](https://atlas.hashicorp.com/tknerr/boxes/baseimage-ubuntu-16.04)
+ * [`tknerr/baseimage-ubuntu-12.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-12.04)
+ * [`tknerr/baseimage-ubuntu-14.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-14.04)
+ * [`tknerr/baseimage-ubuntu-16.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-16.04)
 
 ### Usage
 
@@ -59,28 +59,6 @@ Bringing machine 'default' up with 'docker' provider...
     default: Key inserted! Disconnecting and reconnecting using new SSH key...
 ==> default: Machine booted and ready!
 ```
-
-### Warning - it might not work as expected (Vagrant =< 1.7.2)
-
-> **Please note**: until version 1.7.2 of Vagrant the docker provisioner [does not inspect
-> the packaged Vagrantfile](https://github.com/mitchellh/vagrant/issues/5667)
-> in the basebox, i.e. it might fail with an error like that:
-> ```
-> $ vagrant up --provider docker
-> Bringing machine 'default' up with 'docker' provider...
-> There are errors in the configuration of this machine. Please fix
-> the following errors and try again:
->
-> docker provider:
-> * One of "build_dir" or "image" must be set
-> ```
-> As a workaround you have to import the desired basebox once, so it is available
-> locally and the docker provider can inspect the Vagrantfile [we package into the box](https://github.com/tknerr/vagrant-docker-baseimages/blob/ea692a56b5b004135f7db08c2720418ad8bfc9a4/spec/helpers.rb#L34-38):
-> ```
-> $ vagrant box add tknerr/baseimage-ubuntu-16.04
-> ```
-> After that, you can use the `config.vm.box` with the docker baseimage as expected.
-
 
 ## Docker Base Images
 
