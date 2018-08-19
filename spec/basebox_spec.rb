@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'base boxes for the docker baseimages' do
 
   PLATFORMS = {
-    ubuntu: ["12.04", "14.04", "16.04"]
+    ubuntu: ["12.04", "14.04", "16.04", "18.04"]
   }
 
   PLATFORMS.each_pair do |platform, versions|
