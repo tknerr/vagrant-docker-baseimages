@@ -5,6 +5,7 @@ machine:
     version: 2.1.5
   environment:
     VAGRANT_DEFAULT_PROVIDER: docker
+    DEBUG_COMMANDS: true
 
 dependencies:
   cache_directories:
