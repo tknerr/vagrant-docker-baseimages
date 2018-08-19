@@ -46,7 +46,7 @@ describe 'vagrant-friendly docker baseimages' do
         it 'can be provisioned with a shell script via `vagrant provision`' do
           result = run_command("vagrant provision", :cwd => @tempdir)
           expect(result.stdout).to include "==> default: Running provisioner: shell..."
-          expect(result.stdout).to include "==> default: hello docker!"
+          expect(result.stdout).to include "    default: hello docker!"
           expect(result.stderr).to match ""
           expect(result.status.exitstatus).to eq 0
         end
