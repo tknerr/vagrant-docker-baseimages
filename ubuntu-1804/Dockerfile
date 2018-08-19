@@ -36,10 +36,12 @@ RUN mkdir -p /home/vagrant/.ssh \
 # don't clean packages, we might be using vagrant-cachier
 RUN rm /etc/apt/apt.conf.d/docker-clean
 
+# create the privilege separation directory for sshd
+RUN mkdir -p /run/sshd
+
 # run sshd in the foreground
 CMD /usr/sbin/sshd -D \
     -o UseDNS=no\
     -o UsePAM=no\
     -o PasswordAuthentication=yes\
-    -o UsePrivilegeSeparation=no\
     -o PidFile=/tmp/sshd.pid
