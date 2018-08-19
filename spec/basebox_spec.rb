@@ -15,7 +15,7 @@ describe 'base boxes for the docker baseimages' do
 
         # need to import the basebox once, see mitchellh/vagrant#5667
         basebox = "tknerr/baseimage-#{platform}-#{version}"
-        result = run_command("vagrant box add #{basebox}")
+        result = run_command("vagrant box add --force #{basebox}")
         expect(result.stdout).to include "==> box: Successfully added box '#{basebox}' (v1.0.0) for 'docker'!"
         expect(result.status.exitstatus).to eq 0
       end
