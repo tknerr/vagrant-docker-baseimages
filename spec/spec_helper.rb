@@ -14,6 +14,7 @@ def run_command(cmd, **opts)
     puts "stdout:\n#{result.stdout}"
     puts "========================================"
     puts "stderr:\n#{result.stderr}"
+    puts "========================================"
   end
   result
 end
