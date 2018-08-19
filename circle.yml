@@ -11,8 +11,8 @@ dependencies:
     - ~/.vagrant.d
     - ~/docker
   pre:
-    - wget https://releases.hashicorp.com/vagrant/1.7.2/vagrant_1.7.2_x86_64.deb
-    - sudo dpkg -i vagrant_1.7.2_x86_64.deb
+    - wget https://releases.hashicorp.com/vagrant/2.1.2/vagrant_2.1.2_x86_64.deb
+    - sudo dpkg -i vagrant_2.1.2_x86_64.deb
   override:
     # cache the docker images / layers
     - if [[ -e ~/docker/ubuntu-images.tar ]]; then docker load -i ~/docker/ubuntu-images.tar; fi
