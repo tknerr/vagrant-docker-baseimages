@@ -60,28 +60,6 @@ Bringing machine 'default' up with 'docker' provider...
 ==> default: Machine booted and ready!
 ```
 
-### Warning - it might not work as expected (Vagrant =< 1.7.2)
-
-> **Please note**: until version 1.7.2 of Vagrant the docker provisioner [does not inspect
-> the packaged Vagrantfile](https://github.com/mitchellh/vagrant/issues/5667)
-> in the basebox, i.e. it might fail with an error like that:
-> ```
-> $ vagrant up --provider docker
-> Bringing machine 'default' up with 'docker' provider...
-> There are errors in the configuration of this machine. Please fix
-> the following errors and try again:
->
-> docker provider:
-> * One of "build_dir" or "image" must be set
-> ```
-> As a workaround you have to import the desired basebox once, so it is available
-> locally and the docker provider can inspect the Vagrantfile [we package into the box](https://github.com/tknerr/vagrant-docker-baseimages/blob/ea692a56b5b004135f7db08c2720418ad8bfc9a4/spec/helpers.rb#L34-38):
-> ```
-> $ vagrant box add tknerr/baseimage-ubuntu-16.04
-> ```
-> After that, you can use the `config.vm.box` with the docker baseimage as expected.
-
-
 ## Docker Base Images
 
 In case you want to work with the actual docker base images directly, the following ones (see subdirectories) are available on [docker hub](https://registry.hub.docker.com):
