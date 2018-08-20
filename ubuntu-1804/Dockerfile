@@ -1,18 +1,20 @@
-FROM ubuntu:14.04
+FROM ubuntu:18.04
 
 MAINTAINER Torben Knerr <mail@tknerr.de>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# ensure we have the en_US.UTF-8 locale available
-RUN locale-gen en_US.UTF-8
-
 # install common dependencies
 RUN apt-get update && apt-get install -y \
+    locales \
     curl \
     lsb-release \
     openssh-server \
-    sudo
+    sudo \
+    python
+
+# ensure we have the en_US.UTF-8 locale available
+RUN locale-gen en_US.UTF-8
 
 # setup the vagrant user
 RUN if ! getent passwd vagrant; then useradd -d /home/vagrant -m -s /bin/bash vagrant; fi \
