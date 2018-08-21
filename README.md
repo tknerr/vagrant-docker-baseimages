@@ -17,7 +17,7 @@ On top of the official distro base image it includes:
 
 The intended use of the Vagrant-friendly docker base images is to use them as a basebox in your `Vagrantfile`. These baseboxes simply reference one of the [actual docker base images](https://github.com/tknerr/vagrant-docker-baseimages#docker-base-images) below.
 
-The following baseboxes are currently published on [Atlas](https://app.vagrantup.com/boxes/search):
+The following baseboxes are currently published on [Vagrant Cloud](https://app.vagrantup.com/boxes/search):
 
  * [`tknerr/baseimage-ubuntu-12.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-12.04)
  * [`tknerr/baseimage-ubuntu-14.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-14.04)
