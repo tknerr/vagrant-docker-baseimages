@@ -96,6 +96,22 @@ Vagrant.configure(2) do |config|
 end
 ```
 
+### How to run systemd services in the Docker Base Image?
+
+You probably noticed that running systemd services usually does not work in docker containers. Still, sometimes it would be useful to have that work (e.g. when testing systemd based services in a docker baseimage). A simple way to do that is to use the `systemctl` binary with gdraheim/docker-systemctl-replacement:
+
+```ruby
+Vagrant.configure(2) do |config|
+  config.vm.provider "docker" do |docker, override|
+    docker.image = "tknerr/baseimage-ubuntu:18.04"
+    # inject docker systemctl replacement so we can use systemd in the docker container
+    override.vm.provision "shell", privileged: true, inline: <<-EOF
+      sudo wget -O /bin/systemctl https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl.py
+    EOF
+  end
+end
+```
+
 
 ## Contribute
 
