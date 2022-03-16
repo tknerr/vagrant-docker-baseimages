@@ -28,7 +28,7 @@ end
 
 desc "run integration tests"
 task :test do
-  sh "rspec --format doc --color"
+  sh "rspec --format doc --color --tty --format RspecJunitFormatter --out out/test-results/junit/junit-report.xml"
 end
 
 
