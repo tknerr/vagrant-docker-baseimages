@@ -14,7 +14,9 @@ jobs:
             sudo dpkg -i vagrant_2.2.4_x86_64.deb
       - run:
           name: Install Ruby Gems
-          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+          command: |
+            bundle config set --local path 'vendor/bundle'
+            bundle check || bundle install --jobs=4 --retry=3
       - run:
           name: Run tests
           command: bundle exec rake test
