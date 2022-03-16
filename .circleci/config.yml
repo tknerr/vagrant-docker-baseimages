@@ -22,3 +22,5 @@ jobs:
           command: bundle exec rake test
       - store_test_results:
           path: out/test-results
+      - store_artifacts:
+          path: out/test-results
