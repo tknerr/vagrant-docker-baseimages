@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    machine:
+      image: ubuntu-2004:current
+    environment:
+      VAGRANT_DEFAULT_PROVIDER: docker
+    steps:
+      - checkout
+      - run:
+          name: Install Vagrant
+          command: |
+            wget https://releases.hashicorp.com/vagrant/2.2.4/vagrant_2.2.4_x86_64.deb
+            sudo dpkg -i vagrant_2.2.4_x86_64.deb
+      - run:
+          name: Install Ruby Gems
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+      - run:
+          name: Run tests
+          command: bundle exec rake test
