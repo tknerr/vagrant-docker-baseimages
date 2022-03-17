@@ -6,19 +6,24 @@ describe 'base boxes for the docker baseimages' do
     ubuntu: ["14.04", "16.04", "18.04"]
   }
 
+  before(:all) do
+    @tempdir = Dir.mktmpdir
+  end
+
+  after(:all) do
+    FileUtils.rm_rf @tempdir
+  end
+
   PLATFORMS.each_pair do |platform, versions|
     versions.each do |version|
 
-      before(:all) do
-        @tempdir = Dir.mktmpdir
-        write_config @tempdir, vagrantfile_referencing_local_basebox(platform, version)
-      end
-
-      after(:all) do
-        FileUtils.rm_rf @tempdir
-      end
-
       describe "tknerr/baseimage-#{platform}-#{version}" do
+        it 'is referenced in a `Vagrantfile` as a basebox' do
+          write_config(@tempdir, vagrantfile_referencing_local_basebox(platform, version))
+          expect(File.read("#{@tempdir}/Vagrantfile")).to include <<~SNIPPET
+            config.vm.box = "tknerr/baseimage-#{platform}-#{version}"
+          SNIPPET
+        end
         it 'can be imported via `vagrant box add`' do
           basebox_name = "tknerr/baseimage-#{platform}-#{version}"
           basebox_file = "#{platform}-#{version.delete('.')}/baseimage-#{platform}-#{version}.box"
@@ -40,7 +45,6 @@ describe 'base boxes for the docker baseimages' do
           expect(result.status.exitstatus).to eq 0
         end
       end
-
     end
   end
 end

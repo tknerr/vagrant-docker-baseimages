@@ -6,20 +6,25 @@ describe 'vagrant-friendly docker baseimages' do
     ubuntu: ["14.04", "16.04", "18.04"]
   }
 
+  before(:all) do
+    @tempdir = Dir.mktmpdir
+    ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
+  end
+
+  after(:all) do
+    FileUtils.rm_rf @tempdir
+  end
+
   PLATFORMS.each_pair do |platform, versions|
     versions.each do |version|
 
-      before(:all) do
-        @tempdir = Dir.mktmpdir
-        write_config @tempdir, vagrantfile_with_provisioner(platform, version)
-        ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
-      end
-
-      after(:all) do
-        FileUtils.rm_rf @tempdir
-      end
-
       describe "#{platform}-#{version}" do
+        it 'is referenced in a `Vagrantfile` as a docker image' do
+          write_config(@tempdir, vagrantfile_with_provisioner(platform, version))
+          expect(File.read("#{@tempdir}/Vagrantfile")).to include <<~SNIPPET
+            d.image = "tknerr/baseimage-#{platform}:#{version}"
+          SNIPPET
+        end
         it 'is not created when I run `vagrant status`' do
           result = run_command("vagrant status", :cwd => @tempdir)
           expect(result.stdout).to include "not created (docker)"
@@ -65,7 +70,6 @@ describe 'vagrant-friendly docker baseimages' do
           expect(result.status.exitstatus).to eq 0
         end
       end
-
     end
   end
 end
