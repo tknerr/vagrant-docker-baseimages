@@ -60,11 +60,8 @@ describe 'vagrant-friendly docker baseimages' do
         it 'can be destroyed via `vagrant destroy`' do
           result = run_command("vagrant destroy -f", :cwd => @tempdir)
           expect(result.stdout).to include "==> default: Deleting the container..."
-          # destroying containers does not work on circleci
-          unless ENV['CIRCLECI']
-            expect(result.stderr).to match ""
-            expect(result.status.exitstatus).to eq 0
-          end
+          expect(result.stderr).to match ""
+          expect(result.status.exitstatus).to eq 0
         end
       end
 
