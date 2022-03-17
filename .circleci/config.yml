@@ -1,0 +1,39 @@
+version: 2
+jobs:
+  build:
+    machine:
+      image: ubuntu-2004:current
+    environment:
+      VAGRANT_DEFAULT_PROVIDER: docker
+    steps:
+      - checkout
+      # prepare
+      - run:
+          name: Install Vagrant
+          command: |
+            wget https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.deb
+            sudo dpkg -i vagrant_2.2.19_x86_64.deb
+      - run:
+          name: Install Ruby Gems
+          command: |
+            bundle config set --local path 'vendor/bundle'
+            bundle check || bundle install --jobs=4 --retry=3
+      # build
+      - run:
+          name: Build Docker Base Images
+          command: bundle exec rake build:docker:base_images
+      - run:
+          name: Build Vagrant Baseboxes
+          command: bundle exec rake build:vagrant:baseboxes
+      # test
+      - run:
+          name: Integration Test for Docker Base Images
+          command: bundle exec rake test:docker:base_images
+      - run:
+          name: Integration Test for Vagrant Baseboxes
+          command: bundle exec rake test:vagrant:baseboxes
+      # publish
+      - store_test_results:
+          path: out/test-results
+      - store_artifacts:
+          path: out/test-results

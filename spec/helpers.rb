@@ -15,8 +15,8 @@ module Helpers
     File.write "#{dir}/Vagrantfile", content
   end
 
-  def vagrantfile_with_provisioner(platform, version)
-    <<-VAGRANTFILE.unindent
+  def vagrantfile_referencing_docker_baseimage(platform, version)
+    <<~VAGRANTFILE
       Vagrant.configure(2) do |config|
         config.vm.provider "docker" do |d|
           d.image = "tknerr/baseimage-#{platform}:#{version}"
@@ -29,31 +29,13 @@ module Helpers
     VAGRANTFILE
   end
 
-  def minimal_vagrantfile(platform, version)
-    <<-VAGRANTFILE.unindent
-    Vagrant.configure(2) do |config|
-      config.vm.provider "docker" do |d|
-        d.image = "tknerr/baseimage-#{platform}:#{version}"
-        d.has_ssh = true
+  def vagrantfile_referencing_local_basebox(platform, version)
+    <<~VAGRANTFILE
+      Vagrant.configure(2) do |config|
+        config.vm.box = "tknerr/baseimage-#{platform}-#{version}"
+        config.vm.box_version = "0"
       end
-    end
     VAGRANTFILE
-  end
-
-  def vagrantfile_with_box_only(platform, version)
-    <<-VAGRANTFILE.unindent
-    Vagrant.configure(2) do |config|
-      config.vm.box = "tknerr/baseimage-#{platform}-#{version}"
-    end
-    VAGRANTFILE
-  end
-
-  def metadata_json
-    <<-METADATA.unindent
-    {
-        "provider": "docker"
-    }
-    METADATA
   end
 
 end

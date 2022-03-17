@@ -1,3 +1,6 @@
 .vagrant/
 .bundle/
+vendor/
+out/
+*.box
 Gemfile.lock
