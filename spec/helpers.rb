@@ -40,10 +40,11 @@ module Helpers
     VAGRANTFILE
   end
 
-  def vagrantfile_with_box_only(platform, version)
+  def vagrantfile_referencing_local_basebox(platform, version)
     <<-VAGRANTFILE.unindent
     Vagrant.configure(2) do |config|
       config.vm.box = "tknerr/baseimage-#{platform}-#{version}"
+      config.vm.box_version = "0"
     end
     VAGRANTFILE
   end

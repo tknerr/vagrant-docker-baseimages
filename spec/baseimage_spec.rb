@@ -12,6 +12,7 @@ describe 'vagrant-friendly docker baseimages' do
       before(:all) do
         @tempdir = Dir.mktmpdir
         write_config @tempdir, vagrantfile_with_provisioner(platform, version)
+        ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
       end
 
       after(:all) do
