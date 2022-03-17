@@ -20,7 +20,7 @@ describe 'vagrant-friendly docker baseimages' do
 
       describe "#{platform}-#{version}" do
         it 'is referenced in a `Vagrantfile` as a docker image' do
-          write_config(@tempdir, vagrantfile_with_provisioner(platform, version))
+          write_config(@tempdir, vagrantfile_referencing_docker_baseimage(platform, version))
           expect(File.read("#{@tempdir}/Vagrantfile")).to include <<~SNIPPET
             d.image = "tknerr/baseimage-#{platform}:#{version}"
           SNIPPET

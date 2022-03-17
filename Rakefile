@@ -1,8 +1,5 @@
 
-require './spec/helpers'
 require 'rubygems/package'
-
-include Helpers
 
 PLATFORMS = {
   ubuntu: ["14.04", "16.04", "18.04"]
@@ -46,8 +43,23 @@ end
 def build_vagrant_basebox(platform, version)
   box = File.open("#{dir(platform, version)}/baseimage-#{platform}-#{version}.box","wb")
   Gem::Package::TarWriter.new(box) do |tar|
-    tar.add_file("metadata.json", 0644) { |f| f.write metadata_json }
-    tar.add_file("Vagrantfile", 0644) { |f| f.write minimal_vagrantfile(platform, version) }
+    tar.add_file("metadata.json", 0644) do |f|
+      f.write <<~METADATA
+        {
+            "provider": "docker"
+        }
+      METADATA
+    end
+    tar.add_file("Vagrantfile", 0644) do |f|
+      f.write <<~VAGRANTFILE
+        Vagrant.configure(2) do |config|
+          config.vm.provider "docker" do |d|
+            d.image = "tknerr/baseimage-#{platform}:#{version}"
+            d.has_ssh = true
+          end
+        end
+      VAGRANTFILE
+    end
   end
 end
 
@@ -61,4 +73,3 @@ end
 def dir(platform, version)
   "#{platform}-#{version.delete('.')}"
 end
-
