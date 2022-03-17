@@ -28,6 +28,7 @@ describe 'vagrant-friendly docker baseimages' do
         end
         it 'comes up when I run `vagrant up --no-provision`' do
           result = run_command("vagrant up --no-provision", :cwd => @tempdir)
+          expect(result.stdout).to include "Image: tknerr/baseimage-#{platform}:#{version}"
           expect(result.stdout).to include "==> default: Machine booted and ready!"
           expect(result.stderr).to match ""
           expect(result.status.exitstatus).to eq 0
