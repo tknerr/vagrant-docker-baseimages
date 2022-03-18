@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     openssh-server \
     sudo \
-    python
+    python3
 
 # ensure we have the en_US.UTF-8 locale available
 RUN locale-gen en_US.UTF-8
