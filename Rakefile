@@ -2,7 +2,7 @@
 require 'rubygems/package'
 
 PLATFORMS = {
-  ubuntu: ["14.04", "16.04", "18.04", "20.04"]
+  ubuntu: ["20.04"]
 }
 
 desc "build the docker base images"

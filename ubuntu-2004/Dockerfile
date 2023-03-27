@@ -36,6 +36,10 @@ RUN mkdir -p /home/vagrant/.ssh \
 # don't clean packages, we might be using vagrant-cachier
 RUN rm /etc/apt/apt.conf.d/docker-clean
 
+# install systemctl replacement
+RUN wget -O /usr/bin/systemctl https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py
+RUN mkdir -p /run/systemd/system/
+
 # create the privilege separation directory for sshd
 RUN mkdir -p /run/sshd
 
