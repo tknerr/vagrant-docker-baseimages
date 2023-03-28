@@ -15,11 +15,19 @@ module Helpers
     File.write "#{dir}/Vagrantfile", content
   end
 
-  def vagrantfile_referencing_docker_baseimage(platform, version)
+  def os
+    ENV.fetch('OS_UNDER_TEST')
+  end
+
+  def version
+    ENV.fetch('VERSION_UNDER_TEST')
+  end
+
+  def vagrantfile_referencing_docker_baseimage(os, version)
     <<~VAGRANTFILE
       Vagrant.configure(2) do |config|
         config.vm.provider "docker" do |d|
-          d.image = "tknerr/baseimage-#{platform}:#{version}"
+          d.image = "tknerr/baseimage-#{os}:#{version}"
           d.has_ssh = true
         end
 
@@ -29,10 +37,10 @@ module Helpers
     VAGRANTFILE
   end
 
-  def vagrantfile_referencing_local_basebox(platform, version)
+  def vagrantfile_referencing_local_basebox(os, version)
     <<~VAGRANTFILE
       Vagrant.configure(2) do |config|
-        config.vm.box = "tknerr/baseimage-#{platform}-#{version}"
+        config.vm.box = "tknerr/baseimage-#{os}-#{version}"
         config.vm.box_version = "0"
       end
     VAGRANTFILE

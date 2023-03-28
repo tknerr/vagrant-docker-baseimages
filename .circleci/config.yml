@@ -21,17 +21,17 @@ jobs:
       # build
       - run:
           name: Build Docker Base Images
-          command: bundle exec rake build:docker:base_images
+          command: bundle exec rake build:docker:base_images PLATFORM=all
       - run:
           name: Build Vagrant Baseboxes
-          command: bundle exec rake build:vagrant:baseboxes
+          command: bundle exec rake build:vagrant:baseboxes PLATFORM=all
       # test
       - run:
           name: Integration Test for Docker Base Images
-          command: bundle exec rake test:docker:base_images
+          command: bundle exec rake test:docker:base_images PLATFORM=all
       - run:
           name: Integration Test for Vagrant Baseboxes
-          command: bundle exec rake test:vagrant:baseboxes
+          command: bundle exec rake test:vagrant:baseboxes PLATFORM=all
       # publish
       - store_test_results:
           path: out/test-results
