@@ -1,6 +1,4 @@
-FROM ubuntu:20.04
-
-MAINTAINER Torben Knerr <mail@tknerr.de>
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND noninteractive
 

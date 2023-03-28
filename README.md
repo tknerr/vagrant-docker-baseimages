@@ -19,6 +19,7 @@ The intended use of the Vagrant-friendly docker base images is to use them as a 
 
 The following baseboxes are currently published on [Vagrant Cloud](https://app.vagrantup.com/boxes/search):
 
+ * [`tknerr/baseimage-ubuntu-22.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-22.04)
  * [`tknerr/baseimage-ubuntu-20.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-20.04)
  * [`tknerr/baseimage-ubuntu-18.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-18.04)
  * [`tknerr/baseimage-ubuntu-16.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-16.04)
@@ -28,10 +29,10 @@ The following baseboxes are currently published on [Vagrant Cloud](https://app.v
 
 Use the `config.vm.box` setting to specify the basebox in your Vagrantfile.
 
-For example, run `vagrant init tknerr/baseimage-ubuntu-20.04 --minimal` to create the Vagrantfile below:
+For example, run `vagrant init tknerr/baseimage-ubuntu-22.04 --minimal` to create the Vagrantfile below:
 ```ruby
 Vagrant.configure(2) do |config|
-  config.vm.box = "tknerr/baseimage-ubuntu-20.04"
+  config.vm.box = "tknerr/baseimage-ubuntu-22.04"
 end
 ```
 
@@ -41,7 +42,7 @@ W:\repo\sample>vagrant up --provider=docker
 Bringing machine 'default' up with 'docker' provider...
 ==> default: Creating the container...
     default:   Name: minimal_default_1441605508
-    default:  Image: tknerr/baseimage-ubuntu:20.04
+    default:  Image: tknerr/baseimage-ubuntu:22.04
     default: Volume: /w/repo/sample:/vagrant
     default:   Port: 0.0.0.0:2222:22
     default:
@@ -65,6 +66,7 @@ Bringing machine 'default' up with 'docker' provider...
 
 In case you want to work with the actual docker base images directly, the following ones (see subdirectories) are available on [docker hub](https://registry.hub.docker.com):
 
+ * [`tknerr/baseimage-ubuntu:22.04`](https://hub.docker.com/r/tknerr/baseimage-ubuntu/tags/)
  * [`tknerr/baseimage-ubuntu:20.04`](https://hub.docker.com/r/tknerr/baseimage-ubuntu/tags/)
  * [`tknerr/baseimage-ubuntu:18.04`](https://hub.docker.com/r/tknerr/baseimage-ubuntu/tags/)
  * [`tknerr/baseimage-ubuntu:16.04`](https://hub.docker.com/r/tknerr/baseimage-ubuntu/tags/)
@@ -77,7 +79,7 @@ run `vagrant up`:
 ```ruby
 Vagrant.configure(2) do |config|
   config.vm.provider "docker" do |d|
-    d.image = "tknerr/baseimage-ubuntu:20.04"
+    d.image = "tknerr/baseimage-ubuntu:22.04"
   end
 end
 ```
@@ -87,7 +89,7 @@ this container has ssh enabled:
 ```ruby
 Vagrant.configure(2) do |config|
   config.vm.provider "docker" do |d|
-    d.image = "tknerr/baseimage-ubuntu:20.04"
+    d.image = "tknerr/baseimage-ubuntu:22.04"
     d.has_ssh = true
   end
 

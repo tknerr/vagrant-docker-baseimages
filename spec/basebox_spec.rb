@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'base boxes for the docker baseimages' do
 
   PLATFORMS = {
-    ubuntu: ["14.04", "16.04", "18.04", "20.04"]
+    ubuntu: ["14.04", "16.04", "18.04", "20.04", "22.04"]
   }
 
   before(:all) do
