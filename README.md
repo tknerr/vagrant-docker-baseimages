@@ -98,8 +98,85 @@ Vagrant.configure(2) do |config|
 end
 ```
 
+## Development
 
-## Contribute
+### Prerequisites
+
+Prerequisites you need to have installed:
+
+* Docker
+* Vagrant
+* Ruby
+
+### Building and Testing
+
+Install bundler dependencies first:
+```
+$ bundle install
+```
+
+To build the Docker Base Images for Ubuntu 22.04:
+```
+$ bundle exec rake build:docker:base_images PLATFORM=ubuntu-22.04
+```
+
+Run integration tests for the Docker Base Image:
+```
+$ bundle exec rake test:docker:base_images PLATFORM=ubuntu-22.04
+rspec --format doc --color --tty spec/baseimage_spec.rb
+
+vagrant-friendly docker baseimages
+  ubuntu-22.04
+    is referenced in a `Vagrantfile` as a docker image
+    is not created when I run `vagrant status`
+    comes up when I run `vagrant up --no-provision`
+    is now shown as running when I run `vagrant status` again
+    accepts remote ssh commands via `vagrant ssh -c`
+    can be provisioned with a shell script via `vagrant provision`
+    is DISTRIB_ID=Ubuntu / DISTRIB_RELEASE=22.04 in lsb-release file
+    can be stopped via `vagrant halt`
+    can be destroyed via `vagrant destroy`
+
+Finished in 46.74 seconds (files took 0.31354 seconds to load)
+9 examples, 0 failuress
+```
+
+In order to build the Vagrant Basebox "wrappers" around it:
+```
+$ bundle exec rake build:vagrant:baseboxes PLATFORM=ubuntu-22.04
+```
+
+Run integration tests for the Vagrant Basebox:
+```
+$ bundle exec rake test:vagrant:baseboxes PLATFORM=ubuntu-22.04
+rspec --format doc --color --tty spec/basebox_spec.rb
+
+base boxes for the docker baseimages
+  tknerr/baseimage-ubuntu-22.04
+    is referenced in a `Vagrantfile` as a basebox
+    can be imported via `vagrant box add`
+    comes up via `vagrant up --provider docker`
+    can be destroyed via `vagrant destroy`
+
+Finished in 30.08 seconds (files took 0.61239 seconds to load)
+4 examples, 0 failures
+```
+
+### Publishing
+
+This is currently done manually, and requires to log in to dockerhub / vagrantcloud interactively.
+
+To publish the docker base image for Ubuntu 22.04 to dockerhub:
+```
+$ bundle exec rake publish:docker:base_images PLATFORM=ubuntu-22.04
+```
+
+To publish the corresponding vagrant basebox to vagrantcloud:
+```
+$ bundle exec rake publish:vagrant:baseboxes PLATFORM=ubuntu-22.04
+```
+
+## Contributing
 
 How to contribute?
 
