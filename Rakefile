@@ -35,6 +35,15 @@ task "test:docker:base_images" do
   end
 end
 
+desc "publish the docker base images"
+task "publish:docker:base_images" do
+  selected_platforms.each_pair do |os, versions|
+    versions.each do |version|
+      publish_docker_image(os, version)
+    end
+  end
+end
+
 desc "build the vagrant baseboxes"
 task "build:vagrant:baseboxes" do
   selected_platforms.each_pair do |os, versions|
@@ -53,11 +62,35 @@ task "test:vagrant:baseboxes" do
   end
 end
 
+desc "publish the vagrant baseboxes"
+task "publish:vagrant:baseboxes" do
+  selected_platforms.each_pair do |os, versions|
+    versions.each do |version|
+      publish_vagrant_basebox(os, version)
+    end
+  end
+end
+
 
 def build_docker_image(os, version)
   image = "tknerr/baseimage-#{os}:#{version}"
   sh "docker rmi #{image} -f"
   sh "docker build --no-cache -t #{image} #{dir(os, version)}"
+end
+
+def publish_docker_image(os, version)
+  sh <<~SCRIPT
+    set -e
+    docker login
+    docker push tknerr/baseimage-#{os}:#{version}
+    docker logout
+  SCRIPT
+end
+
+def publish_vagrant_basebox(os, version)
+  desc = "A Vagrant-friendly docker baseimage for #{os.capitalize} #{version}. See https://github.com/tknerr/vagrant-docker-baseimages"
+  sh "vagrant cloud publish --release --no-private --short-description='#{desc}' --version-description='#{desc}' \
+        tknerr/baseimage-#{os}-#{version} 1.0.0 docker #{dir(os, version)}/baseimage-#{os}-#{version}.box"
 end
 
 def build_vagrant_basebox(os, version)
