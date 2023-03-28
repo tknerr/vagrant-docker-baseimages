@@ -50,6 +50,13 @@ describe 'vagrant-friendly docker baseimages' do
       expect(result.stderr).to match ""
       expect(result.status.exitstatus).to eq 0
     end
+    it "is DISTRIB_ID=#{os.capitalize} / DISTRIB_RELEASE=#{version} in lsb-release file" do
+      result = run_command("vagrant ssh -c 'cat /etc/lsb-release'", :cwd => @tempdir)
+      expect(result.stdout).to include "DISTRIB_ID=#{os.capitalize}"
+      expect(result.stdout).to include "DISTRIB_RELEASE=#{version}"
+      expect(result.stderr).to match ""
+      expect(result.status.exitstatus).to eq 0
+    end
     it 'can be stopped via `vagrant halt`' do
       result = run_command("vagrant halt", :cwd => @tempdir)
       expect(result.stdout).to include "==> default: Stopping container..."
