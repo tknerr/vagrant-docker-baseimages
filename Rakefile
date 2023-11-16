@@ -32,6 +32,7 @@ task "test:docker:base_images" do
   selected_platforms.each_pair do |os, versions|
     versions.each do |version|
       TARGET_ARCHITECTURES.each do |arch|
+        import_multiarch_docker_image(os, version, arch)
         run_rspec("baseimage_spec", os, version, arch)
       end
     end
@@ -61,6 +62,7 @@ task "test:vagrant:baseboxes" do
   selected_platforms.each_pair do |os, versions|
     versions.each do |version|
       TARGET_ARCHITECTURES.each do |arch|
+        import_multiarch_docker_image(os, version, arch)
         run_rspec("basebox_spec", os, version, arch)
       end
     end
@@ -98,6 +100,11 @@ def use_multiarch_docker_builder()
 end
 def destroy_multiarch_docker_builder()
   sh "docker buildx rm --builder=baseimage-builder || true"
+end
+def import_multiarch_docker_image(os, version, arch)
+  use_multiarch_docker_builder()
+  sh "docker rmi #{docker_image_name(os, version)} -f"
+  sh "docker buildx build --load --platform=#{docker_platform([arch])} -t #{docker_image_name(os, version)} #{dir(os, version)}"
 end
 
 def publish_docker_image(os, version)
