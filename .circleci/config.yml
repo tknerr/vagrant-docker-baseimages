@@ -11,8 +11,8 @@ jobs:
       - run:
           name: Install Vagrant
           command: |
-            wget https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.deb
-            sudo dpkg -i vagrant_2.2.19_x86_64.deb
+            wget https://releases.hashicorp.com/vagrant/2.4.0/vagrant_2.4.0-1_amd64.deb
+            sudo dpkg -i vagrant_2.4.0-1_amd64.deb
       - run:
           name: Install Ruby Gems
           command: |
