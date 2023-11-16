@@ -119,7 +119,8 @@ end
 
 def publish_vagrant_basebox(os, version)
   desc = "A Vagrant-friendly docker baseimage for #{os.capitalize} #{version}. See https://github.com/tknerr/vagrant-docker-baseimages"
-  sh "vagrant cloud publish --release --no-private --short-description='#{desc}' --version-description='#{desc}' \
+  # NOTE: we use architecture 'unknown' here so the same architecture independent basebox will be used
+  sh "vagrant cloud publish --release --no-private --short-description='#{desc}' --version-description='#{desc}' --architecture='unknown' \
         #{vagrant_box_name(os, version)} 1.0.0 docker #{vagrant_box_path(os, version)}"
 end
 
@@ -127,6 +128,8 @@ def build_vagrant_basebox(os, version)
   box = File.open("#{vagrant_box_path(os, version)}", 'wb')
   Gem::Package::TarWriter.new(box) do |tar|
     tar.add_file("metadata.json", 0644) do |f|
+      # NOTE: we don't add architecture info here, so that the box remains architecture independent
+      # see https://developer.hashicorp.com/vagrant/docs/boxes/format
       f.write <<~METADATA
         {
             "provider": "docker"
@@ -134,6 +137,10 @@ def build_vagrant_basebox(os, version)
       METADATA
     end
     tar.add_file("Vagrantfile", 0644) do |f|
+      # NOTE: we don't add `create_args = '--platform=linux/amd64'` here, so that the Vagrantfile remains
+      # architecture independent. The vagrant docker provider will choose the correct arch / docker image
+      # to pull based on the host architecture (or can be overridden via DOCKER_DEFAULT_PLATFORM env var)
+      # see https://developer.hashicorp.com/vagrant/docs/providers/docker/configuration
       f.write <<~VAGRANTFILE
         Vagrant.configure(2) do |config|
           config.vm.provider "docker" do |d|
