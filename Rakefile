@@ -73,16 +73,15 @@ end
 
 
 def build_docker_image(os, version)
-  image = "tknerr/baseimage-#{os}:#{version}"
-  sh "docker rmi #{image} -f"
-  sh "docker build --no-cache -t #{image} #{dir(os, version)}"
+  sh "docker rmi #{docker_image_name(os, version)} -f"
+  sh "docker build --no-cache -t #{docker_image_name(os, version)} #{dir(os, version)}"
 end
 
 def publish_docker_image(os, version)
   sh <<~SCRIPT
     set -e
     docker login
-    docker push tknerr/baseimage-#{os}:#{version}
+    docker push #{docker_image_name(os, version)}
     docker logout
   SCRIPT
 end
@@ -107,7 +106,7 @@ def build_vagrant_basebox(os, version)
       f.write <<~VAGRANTFILE
         Vagrant.configure(2) do |config|
           config.vm.provider "docker" do |d|
-            d.image = "tknerr/baseimage-#{os}:#{version}"
+            d.image = "#{docker_image_name(os, version)}"
             d.has_ssh = true
           end
         end
@@ -127,4 +126,7 @@ end
 
 def dir(os, version)
   "#{os}-#{version.delete('.')}"
+end
+def docker_image_name(os, version)
+  "tknerr/baseimage-#{os}:#{version}"
 end
