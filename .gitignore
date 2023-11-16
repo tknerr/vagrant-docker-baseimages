@@ -2,4 +2,3 @@
 vendor/
 out/
 *.box
-Gemfile.lock
