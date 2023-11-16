@@ -11,11 +11,11 @@ describe 'vagrant-friendly docker baseimages' do
     FileUtils.rm_rf @tempdir
   end
 
-  describe "#{os}-#{version}" do
+  describe "#{docker_image_name(os, version)}" do
     it 'is referenced in a `Vagrantfile` as a docker image' do
       write_config(@tempdir, vagrantfile_referencing_docker_baseimage(os, version))
       expect(File.read("#{@tempdir}/Vagrantfile")).to include <<~SNIPPET
-        d.image = "tknerr/baseimage-#{os}:#{version}"
+        d.image = "#{docker_image_name(os, version)}"
       SNIPPET
     end
     it 'is not created when I run `vagrant status`' do
@@ -26,7 +26,7 @@ describe 'vagrant-friendly docker baseimages' do
     end
     it 'comes up when I run `vagrant up --no-provision`' do
       result = run_command("vagrant up --no-provision", :cwd => @tempdir)
-      expect(result.stdout).to include "Image: tknerr/baseimage-#{os}:#{version}"
+      expect(result.stdout).to include "Image: #{docker_image_name(os, version)}"
       expect(result.stdout).to include "==> default: Machine booted and ready!"
       expect(result.stderr).to match ""
       expect(result.status.exitstatus).to eq 0

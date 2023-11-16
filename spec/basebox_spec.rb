@@ -10,15 +10,15 @@ describe 'base boxes for the docker baseimages' do
     FileUtils.rm_rf @tempdir
   end
 
-  describe "tknerr/baseimage-#{os}-#{version}" do
+  describe "#{vagrant_box_name(os, version)}" do
     it 'is referenced in a `Vagrantfile` as a basebox' do
       write_config(@tempdir, vagrantfile_referencing_local_basebox(os, version))
       expect(File.read("#{@tempdir}/Vagrantfile")).to include <<~SNIPPET
-        config.vm.box = "tknerr/baseimage-#{os}-#{version}"
+        config.vm.box = "#{vagrant_box_name(os, version)}"
       SNIPPET
     end
     it 'can be imported via `vagrant box add`' do
-      basebox_name = "tknerr/baseimage-#{os}-#{version}"
+      basebox_name = "#{vagrant_box_name(os, version)}"
       basebox_file = "#{os}-#{version.delete('.')}/baseimage-#{os}-#{version}.box"
       result = run_command("vagrant box add --name #{basebox_name} --provider docker --force #{basebox_file}")
       expect(result.stdout).to include "==> box: Box file was not detected as metadata. Adding it directly..."
