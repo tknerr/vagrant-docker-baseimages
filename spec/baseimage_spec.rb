@@ -11,11 +11,21 @@ describe 'vagrant-friendly docker baseimages' do
     FileUtils.rm_rf @tempdir
   end
 
-  describe "#{os}-#{version}" do
+  describe "#{docker_image_name(os, version)} (for #{arch})" do
+    it "is present as a docker image for #{arch}" do
+      result = run_command("docker images #{docker_image_name(os, version)} --format '{{.Repository}}:{{.Tag}}, built {{.CreatedSince}}'")
+      expect(result.stdout).to include "#{docker_image_name(os, version)},"
+      expect(result.stderr).to match ""
+      expect(result.status.exitstatus).to eq 0
+      result2 = run_command("docker image inspect #{docker_image_name(os, version)} --format '{{.Architecture}}'")
+      expect(result2.stdout).to match arch
+      expect(result2.stderr).to match ""
+      expect(result2.status.exitstatus).to eq 0
+    end
     it 'is referenced in a `Vagrantfile` as a docker image' do
       write_config(@tempdir, vagrantfile_referencing_docker_baseimage(os, version))
       expect(File.read("#{@tempdir}/Vagrantfile")).to include <<~SNIPPET
-        d.image = "tknerr/baseimage-#{os}:#{version}"
+        d.image = "#{docker_image_name(os, version)}"
       SNIPPET
     end
     it 'is not created when I run `vagrant status`' do
@@ -26,7 +36,7 @@ describe 'vagrant-friendly docker baseimages' do
     end
     it 'comes up when I run `vagrant up --no-provision`' do
       result = run_command("vagrant up --no-provision", :cwd => @tempdir)
-      expect(result.stdout).to include "Image: tknerr/baseimage-#{os}:#{version}"
+      expect(result.stdout).to include "Image: #{docker_image_name(os, version)}"
       expect(result.stdout).to include "==> default: Machine booted and ready!"
       expect(result.stderr).to match ""
       expect(result.status.exitstatus).to eq 0
@@ -56,6 +66,22 @@ describe 'vagrant-friendly docker baseimages' do
       expect(result.stdout).to include "DISTRIB_RELEASE=#{version}"
       expect(result.stderr).to match ""
       expect(result.status.exitstatus).to eq 0
+    end
+    it "is running under #{arch} architecture" do
+      result = run_command("vagrant ssh -c 'dpkg --print-architecture'", :cwd => @tempdir)
+      expect(result.stdout).to match arch
+      expect(result.stderr).to match ""
+      expect(result.status.exitstatus).to eq 0
+      result2 = run_command("vagrant ssh -c 'uname --machine --processor --hardware-platform'", :cwd => @tempdir)
+      if arch == 'amd64'
+        expect(result2.stdout).to match 'x86_64 x86_64 x86_64'
+      elsif arch == 'arm64'
+        expect(result2.stdout).to match 'aarch64 aarch64 aarch64'
+      else
+        raise "unsupported architecture: #{arch}"
+      end
+      expect(result2.stderr).to match ""
+      expect(result2.status.exitstatus).to eq 0
     end
     it 'can be stopped via `vagrant halt`' do
       result = run_command("vagrant halt", :cwd => @tempdir)
