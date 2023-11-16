@@ -1,5 +1,4 @@
 .vagrant/
-.bundle/
 vendor/
 out/
 *.box
