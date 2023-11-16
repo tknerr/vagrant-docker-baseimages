@@ -60,7 +60,9 @@ desc "test the vagrant baseboxes"
 task "test:vagrant:baseboxes" do
   selected_platforms.each_pair do |os, versions|
     versions.each do |version|
-      run_rspec("basebox_spec", os, version)
+      TARGET_ARCHITECTURES.each do |arch|
+        run_rspec("basebox_spec", os, version, arch)
+      end
     end
   end
 end
