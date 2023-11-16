@@ -72,6 +72,11 @@ task "publish:vagrant:baseboxes" do
   end
 end
 
+desc "clean output directories and destroy builders"
+task "build:cleanup" do
+  sh "git clean -ffdx"
+  destroy_multiarch_docker_builder()
+end
 
 def build_docker_image(os, version)
   create_multiarch_docker_builder()
@@ -86,6 +91,9 @@ end
 def use_multiarch_docker_builder()
   sh "docker buildx use --builder=baseimage-builder"
   sh "docker buildx inspect"
+end
+def destroy_multiarch_docker_builder()
+  sh "docker buildx rm --builder=baseimage-builder || true"
 end
 
 def publish_docker_image(os, version)
