@@ -108,10 +108,11 @@ def import_multiarch_docker_image(os, version, arch)
 end
 
 def publish_docker_image(os, version)
+  use_multiarch_docker_builder()
   sh <<~SCRIPT
     set -e
     docker login
-    docker push #{docker_image_name(os, version)}
+    docker buildx build --push --platform=#{docker_platform(TARGET_ARCHITECTURES)} -t #{docker_image_name(os, version)} #{dir(os, version)}
     docker logout
   SCRIPT
 end
