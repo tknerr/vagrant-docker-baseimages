@@ -1,8 +1,13 @@
-version: 2
+version: 2.1
+
 jobs:
   build:
+    parameters:
+      platform:
+        type: string
     machine:
       image: ubuntu-2004:current
+    resource_class: medium
     environment:
       VAGRANT_DEFAULT_PROVIDER: docker
     steps:
@@ -25,19 +30,32 @@ jobs:
       # build
       - run:
           name: Build Docker Base Images
-          command: bundle exec rake build:docker:base_images PLATFORM=all
+          command: bundle exec rake build:docker:base_images PLATFORM=<< parameters.platform >>
       - run:
           name: Build Vagrant Baseboxes
-          command: bundle exec rake build:vagrant:baseboxes PLATFORM=all
+          command: bundle exec rake build:vagrant:baseboxes PLATFORM=<< parameters.platform >>
       # test
       - run:
           name: Integration Test for Docker Base Images
-          command: bundle exec rake test:docker:base_images PLATFORM=all
+          command: bundle exec rake test:docker:base_images PLATFORM=<< parameters.platform >>
       - run:
           name: Integration Test for Vagrant Baseboxes
-          command: bundle exec rake test:vagrant:baseboxes PLATFORM=all
+          command: bundle exec rake test:vagrant:baseboxes PLATFORM=<< parameters.platform >>
       # publish
       - store_test_results:
           path: out/test-results
       - store_artifacts:
           path: out/test-results
+
+workflows:
+  all-builds:
+    jobs:
+      - build:
+          matrix:
+            parameters:
+              platform:
+                - ubuntu-14.04
+                - ubuntu-16.04
+                - ubuntu-18.04
+                - ubuntu-20.04
+                - ubuntu-22.04
