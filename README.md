@@ -2,9 +2,8 @@
 
 [![Circle CI](https://circleci.com/gh/tknerr/vagrant-docker-baseimages/tree/master.svg?style=shield)](https://circleci.com/gh/tknerr/vagrant-docker-baseimages/tree/master)
 
-A collection of Vagrant-friendly docker base images + corresponding Vagrant baseboxes. Something inbetween the
-official distro base image and [puhsion/baseimage](https://phusion.github.io/baseimage-docker/),
-just enough to make it work with Vagrant.
+A collection of Vagrant-friendly docker base images (published for `linux/amd64` and `linux/arm64` platforms) along with corresponding Vagrant baseboxes. Something inbetween the
+official distro base image and [puhsion/baseimage](https://phusion.github.io/baseimage-docker/), just enough to make it work with Vagrant.
 
 On top of the official distro base image it includes:
 
@@ -62,9 +61,27 @@ Bringing machine 'default' up with 'docker' provider...
 ==> default: Machine booted and ready!
 ```
 
+### Multi-Platform Support
+
+In case you want bring up the docker base images for an architecture different from your host OS
+you can do that by setting the `$DOCKER_DEFAULT_PLATFORM` environment variable.
+
+For example, to run the arm64 base image on an amd64 host:
+```
+$ DOCKER_DEFAULT_PLATFORM=linux/arm64 vagrant up --povider docker
+```
+
+Or vice versa, to use the amd64 base image:
+```
+$ DOCKER_DEFAULT_PLATFORM=linux/amd64 vagrant up --povider docker
+```
+
+**Please note:** running the base image under an architecture different from your host OS will run the container emulated under QEMU,
+which might be substantially slower than running the container under the native architecture!
+
 ## Docker Base Images
 
-In case you want to work with the actual docker base images directly, the following ones (see subdirectories) are available on [docker hub](https://registry.hub.docker.com):
+In case you want to work with the actual docker base images directly, the following ones (see subdirectories) are available on [docker hub](https://registry.hub.docker.com) (published as multi-arch docker images, supporting `linux/amd64` and `linux/arm64` platforms):
 
  * [`tknerr/baseimage-ubuntu:22.04`](https://hub.docker.com/r/tknerr/baseimage-ubuntu/tags/)
  * [`tknerr/baseimage-ubuntu:20.04`](https://hub.docker.com/r/tknerr/baseimage-ubuntu/tags/)
@@ -98,6 +115,19 @@ Vagrant.configure(2) do |config|
 end
 ```
 
+### Multi-Platform Support
+
+As an alternative to using the `$DOCKER_DEFAULT_PLATFORM` environment variable mentioned above, you can also
+pass the desired `--platform` directly via the docker provider configuration in your Vagrantfile:
+```ruby
+Vagrant.configure(2) do |config|
+  config.vm.provider "docker" do |d|
+    d.image = "tknerr/baseimage-ubuntu:22.04"
+    d.create_args = [ '--platform=linux/arm64' ]
+  end
+end
+```
+
 ## Development
 
 ### Prerequisites
@@ -126,7 +156,8 @@ $ bundle exec rake test:docker:base_images PLATFORM=ubuntu-22.04
 rspec --format doc --color --tty spec/baseimage_spec.rb
 
 vagrant-friendly docker baseimages
-  ubuntu-22.04
+  tknerr/baseimage-ubuntu:22.04 (for amd64)
+    is present as a docker image for amd64
     is referenced in a `Vagrantfile` as a docker image
     is not created when I run `vagrant status`
     comes up when I run `vagrant up --no-provision`
@@ -134,11 +165,12 @@ vagrant-friendly docker baseimages
     accepts remote ssh commands via `vagrant ssh -c`
     can be provisioned with a shell script via `vagrant provision`
     is DISTRIB_ID=Ubuntu / DISTRIB_RELEASE=22.04 in lsb-release file
+    is running under amd64 architecture
     can be stopped via `vagrant halt`
     can be destroyed via `vagrant destroy`
 
-Finished in 46.74 seconds (files took 0.31354 seconds to load)
-9 examples, 0 failuress
+Finished in 56.74 seconds (files took 0.31354 seconds to load)
+11 examples, 0 failuress
 ```
 
 In order to build the Vagrant Basebox "wrappers" around it:
@@ -151,15 +183,16 @@ Run integration tests for the Vagrant Basebox:
 $ bundle exec rake test:vagrant:baseboxes PLATFORM=ubuntu-22.04
 rspec --format doc --color --tty spec/basebox_spec.rb
 
-base boxes for the docker baseimages
-  tknerr/baseimage-ubuntu-22.04
+vagrant base boxes for the docker baseimages
+  tknerr/baseimage-ubuntu-22.04 (running on an amd64 host)
     is referenced in a `Vagrantfile` as a basebox
     can be imported via `vagrant box add`
     comes up via `vagrant up --provider docker`
+    creates a docker container for amd64 architecture
     can be destroyed via `vagrant destroy`
 
 Finished in 30.08 seconds (files took 0.61239 seconds to load)
-4 examples, 0 failures
+5 examples, 0 failures
 ```
 
 ### Publishing
