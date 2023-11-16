@@ -89,11 +89,11 @@ end
 def publish_vagrant_basebox(os, version)
   desc = "A Vagrant-friendly docker baseimage for #{os.capitalize} #{version}. See https://github.com/tknerr/vagrant-docker-baseimages"
   sh "vagrant cloud publish --release --no-private --short-description='#{desc}' --version-description='#{desc}' \
-        tknerr/baseimage-#{os}-#{version} 1.0.0 docker #{dir(os, version)}/baseimage-#{os}-#{version}.box"
+        #{vagrant_box_name(os, version)} 1.0.0 docker #{vagrant_box_path(os, version)}"
 end
 
 def build_vagrant_basebox(os, version)
-  box = File.open("#{dir(os, version)}/baseimage-#{os}-#{version}.box","wb")
+  box = File.open("#{vagrant_box_path(os, version)}", 'wb')
   Gem::Package::TarWriter.new(box) do |tar|
     tar.add_file("metadata.json", 0644) do |f|
       f.write <<~METADATA
@@ -129,4 +129,10 @@ def dir(os, version)
 end
 def docker_image_name(os, version)
   "tknerr/baseimage-#{os}:#{version}"
+end
+def vagrant_box_name(os, version)
+  "tknerr/baseimage-#{os}-#{version}"
+end
+def vagrant_box_path(os, version)
+  "#{dir(os, version)}/baseimage-#{os}-#{version}.box"
 end
