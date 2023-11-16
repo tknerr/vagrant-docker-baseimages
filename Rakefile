@@ -4,6 +4,7 @@ require 'rubygems/package'
 ALL_PLATFORMS = {
   ubuntu: [ "14.04", "16.04", "18.04", "20.04", "22.04"]
 }
+TARGET_ARCHITECTURES = ['amd64', 'arm64']
 
 def selected_platforms
   platform = ENV.fetch('PLATFORM', 'ubuntu-22.04').strip
@@ -73,8 +74,18 @@ end
 
 
 def build_docker_image(os, version)
-  sh "docker rmi #{docker_image_name(os, version)} -f"
-  sh "docker build --no-cache -t #{docker_image_name(os, version)} #{dir(os, version)}"
+  create_multiarch_docker_builder()
+  sh "docker buildx build --no-cache --platform=#{docker_platform(TARGET_ARCHITECTURES)} -t #{docker_image_name(os, version)} #{dir(os, version)}"
+end
+
+def create_multiarch_docker_builder()
+  sh "docker buildx rm --builder=baseimage-builder || true"
+  sh "docker buildx create --name=baseimage-builder --platform=#{docker_platform(TARGET_ARCHITECTURES)} --use"
+  sh "docker buildx inspect"
+end
+def use_multiarch_docker_builder()
+  sh "docker buildx use --builder=baseimage-builder"
+  sh "docker buildx inspect"
 end
 
 def publish_docker_image(os, version)
@@ -129,6 +140,9 @@ def dir(os, version)
 end
 def docker_image_name(os, version)
   "tknerr/baseimage-#{os}:#{version}"
+end
+def docker_platform(archs)
+  archs.map {|arch| "linux/#{arch}"}.join(',')
 end
 def vagrant_box_name(os, version)
   "tknerr/baseimage-#{os}-#{version}"
