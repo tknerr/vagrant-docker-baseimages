@@ -12,6 +12,9 @@ module Helpers
   def version
     ENV.fetch('VERSION_UNDER_TEST')
   end
+  def arch
+    ENV.fetch('ARCH_UNDER_TEST')
+  end
 
   def docker_image_name(os, version)
     "tknerr/baseimage-#{os}:#{version}"

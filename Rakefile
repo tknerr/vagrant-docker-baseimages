@@ -31,7 +31,9 @@ desc "test the docker base images"
 task "test:docker:base_images" do
   selected_platforms.each_pair do |os, versions|
     versions.each do |version|
-      run_rspec("baseimage_spec", os, version)
+      TARGET_ARCHITECTURES.each do |arch|
+        run_rspec("baseimage_spec", os, version, arch)
+      end
     end
   end
 end
@@ -134,12 +136,13 @@ def build_vagrant_basebox(os, version)
   end
 end
 
-def run_rspec(spec_name, os, version)
+def run_rspec(spec_name, os, version, arch)
   ENV['OS_UNDER_TEST'] = os.to_s
   ENV['VERSION_UNDER_TEST'] = version.to_s
+  ENV['ARCH_UNDER_TEST'] = arch.to_s
   sh "rspec --format doc --color --tty \
-            --format RspecJunitFormatter --out out/test-results/junit/#{spec_name}-#{os}-#{version}-junit-report.xml \
-            --format html --out out/test-results/#{spec_name}-#{os}-#{version}-test-report.html \
+            --format RspecJunitFormatter --out out/test-results/junit/#{spec_name}-#{os}-#{version}-#{arch}-junit-report.xml \
+            --format html --out out/test-results/#{spec_name}-#{os}-#{version}-#{arch}-test-report.html \
             spec/#{spec_name}.rb"
 end
 
