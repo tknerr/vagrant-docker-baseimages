@@ -112,7 +112,7 @@ Prerequisites you need to have installed:
 
 Install bundler dependencies first:
 ```
-$ bundle install
+$ bundle install --path vendor/bundle
 ```
 
 To build the Docker Base Images for Ubuntu 22.04:
