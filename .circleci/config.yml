@@ -6,7 +6,7 @@ jobs:
       platform:
         type: string
     machine:
-      image: ubuntu-2004:current
+      image: ubuntu-2204:current
     resource_class: medium
     environment:
       VAGRANT_DEFAULT_PROVIDER: docker
