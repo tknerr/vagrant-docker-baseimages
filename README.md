@@ -18,6 +18,7 @@ The intended use of the Vagrant-friendly docker base images is to use them as a 
 
 The following baseboxes are currently published on [Vagrant Cloud](https://app.vagrantup.com/boxes/search):
 
+ * [`tknerr/baseimage-ubuntu-24.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-24.04)
  * [`tknerr/baseimage-ubuntu-22.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-22.04)
  * [`tknerr/baseimage-ubuntu-20.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-20.04)
  * [`tknerr/baseimage-ubuntu-18.04`](https://app.vagrantup.com/tknerr/boxes/baseimage-ubuntu-18.04)
