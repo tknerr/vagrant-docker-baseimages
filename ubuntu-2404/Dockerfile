@@ -4,6 +4,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # install common dependencies
 RUN apt-get update && apt-get install -y \
+    wget \
     locales \
     curl \
     lsb-release \
