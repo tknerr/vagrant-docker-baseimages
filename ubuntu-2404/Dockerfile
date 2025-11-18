@@ -11,6 +11,15 @@ RUN apt-get update && apt-get install -y \
     sudo \
     python3
 
+RUN apt-get download openssh-server && \
+    mv openssh-server_* openssh-server.deb && \
+    dpkg-deb -R openssh-server.deb openssh-server && \
+    sed -i 's/^[[:space:]]*systemctl.*/echo "Skipping systemd configuration"/' openssh-server/DEBIAN/postinst && \
+    dpkg-deb -b openssh-server openssh-server-updated.deb
+
+RUN dpkg -i openssh-server-updated.deb || apt-get install -f -y && \
+    rm -rf openssh-server.deb openssh-server openssh-server-updated.deb
+
 # ensure we have the en_US.UTF-8 locale available
 RUN locale-gen en_US.UTF-8
 
