@@ -7,7 +7,6 @@ RUN apt-get update && apt-get install -y \
     locales \
     curl \
     lsb-release \
-    openssh-server \
     sudo \
     python3
 
