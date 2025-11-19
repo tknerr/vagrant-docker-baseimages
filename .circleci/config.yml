@@ -26,7 +26,7 @@ jobs:
           name: Install QEMU
           command: |
             sudo apt update
-            sudo apt install qemu-user-static -y
+            sudo apt install qemu-user-static binfmt-support -y
       # build
       - run:
           name: Build Docker Base Images
