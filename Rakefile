@@ -2,7 +2,7 @@
 require 'rubygems/package'
 
 ALL_PLATFORMS = {
-  ubuntu: [ "14.04", "16.04", "18.04", "20.04", "22.04"]
+  ubuntu: [ "14.04", "16.04", "18.04", "20.04", "22.04", "24.04"]
 }
 TARGET_ARCHITECTURES = ['amd64', 'arm64']
 
