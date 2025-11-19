@@ -17,7 +17,7 @@ RUN apt-get download openssh-server && \
     sed -i 's/^[[:space:]]*systemctl.*/echo "Skipping systemd configuration"/' openssh-server/DEBIAN/postinst && \
     dpkg-deb -b openssh-server openssh-server-updated.deb
 
-RUN apt-get install -y ./openssh-server-updated.deb && \
+RUN dpkg -i openssh-server-updated.deb || apt-get install -f -y && \
     rm -rf openssh-server.deb openssh-server openssh-server-updated.deb
 
 # ensure we have the en_US.UTF-8 locale available
